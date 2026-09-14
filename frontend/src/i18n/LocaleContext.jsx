@@ -1,0 +1,55 @@
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useMemo, useState } from 'react';
+
+const dictionaries = {
+  uk: {
+    workspace: 'Робочий простір', salesManagement: 'Управління продажами', dashboard: 'Огляд', orders: 'Замовлення', customers: 'Клієнти', items: 'Товари', profile: 'Мій профіль',
+    signOut: 'Вийти з акаунта', loading: 'Завантаження даних…', retry: 'Повторити', total: 'Усього: {total} · Сторінка {page} з {pages}', previousPage: 'Попередня сторінка', nextPage: 'Наступна сторінка',
+    addCustomer: 'Додати клієнта', editCustomer: 'Змінити клієнта', customerDescription: 'Контакти та відносини, з яких зростають продажі.', customerSearch: 'Пошук за ім’ям або телефоном', customerEmpty: 'Познайомимося з першим клієнтом', customerEmptyText: 'Додайте контакт, щоб оформлювати замовлення та зберігати історію.',
+    addItem: 'Додати товар', editItem: 'Змінити товар', itemDescription: 'Актуальні ціни й залишки. Усе готово до наступного замовлення.', itemSearch: 'Пошук за назвою або артикулом', itemEmpty: 'Каталог починається з першого товару', itemEmptyText: 'Вкажіть назву, артикул, ціну та доступну кількість.',
+    name: 'Ім’я', surname: 'Прізвище', phone: 'Телефон', countryCode: 'Країна та код', phoneNumber: 'Номер без коду країни', customer: 'Клієнт', number: 'Номер', product: 'Товар', sku: 'Артикул', stock: 'Залишок', price: 'Ціна, USD', quantity: 'Кількість',
+    save: 'Зберегти', saving: 'Збереження…', cancel: 'Скасувати', delete: 'Видалити', deleting: 'Видалення…', edit: 'Змінити', actions: 'Дії', search: 'Знайти', records: 'записів', dataSaved: 'Дані збережено.', recordDeleted: 'Запис видалено.', deleteRecord: 'Видалити запис', deleteConfirm: 'Видалити «{name}»? Записи, пов’язані із замовленнями, захищені від видалення.',
+    nothingFound: 'Нічого не знайдено', changeQuery: 'Змініть запит і спробуйте ще раз.', noRecords: 'Поки тут порожньо',
+    newOrder: 'Нове замовлення', allOrders: 'Усі замовлення', orderSearch: 'Ім’я клієнта, телефон або номер замовлення', ordersCount: 'замовлень', ordersEmpty: 'Тут з’являться ваші замовлення', orderEmptyText: 'Створіть замовлення або змініть параметри пошуку.',
+    dashboardTitle: 'Доброго дня, {name}', dashboardText: 'Усі важливі показники вашого бізнесу в одному місці.', completedSales: 'Завершені продажі', completedSalesNote: 'Сума завершених замовлень', activeOrders: 'Активні замовлення', activeOrdersNote: 'Нові та в роботі', customersNote: 'У вашій клієнтській базі', itemsNote: 'Позицій у каталозі', recentOrders: 'Останні замовлення', recentOrdersNote: 'Останні події у вашому просторі', allOrdersLink: 'Усі замовлення', quickActions: 'Швидкі дії', firstOrder: 'Перше замовлення — початок історії', firstOrderText: 'Додайте клієнта й товари, а потім оформіть замовлення.',
+    addCustomerAction: 'Додати клієнта', addCustomerText: 'Почніть нове знайомство', addItemAction: 'Додати товар', addItemText: 'Поповніть каталог', createOrderAction: 'Оформити замовлення', createOrderText: 'Перетворіть запит на продаж',
+    order: 'Замовлення', status: 'Статус', amount: 'Сума', openOrder: 'Відкрити замовлення {id}', orderDetails: 'Замовлення № {id}', totalAmount: 'Разом', new: 'Нове', processing: 'У роботі', completed: 'Завершено', cancelled: 'Скасовано', takeToWork: 'Взяти в роботу', complete: 'Завершити', cancelOrder: 'Скасувати замовлення', confirmCancellation: 'Скасувати замовлення? Усі товари повернуться на склад. Скасування неможливо скасувати.', confirmCancel: 'Підтвердити скасування', back: 'Повернутися',
+    orderCustomer: '01 Клієнт', orderItems: '02 Товари', findCustomer: 'Знайти клієнта', findItem: 'Знайти товар', changeCustomer: 'Змінити клієнта', noStock: 'Товару немає на складі.', chooseCustomerAndItems: 'Оберіть клієнта та хоча б один товар.', checkQuantities: 'Перевірте кількість кожного товару.', preliminaryTotal: 'Попередній підсумок', serverChecks: 'Під час оформлення сервер перевірить актуальні ціни та залишки.', createOrder: 'Створити замовлення', creating: 'Створення…', itemAddedMessage: 'Замовлення створено, товари списано зі складу.',
+    signIn: 'Вхід', registration: 'Реєстрація', welcomeBack: 'З поверненням', joinTeam: 'Приєднатися до команди', loginDescription: 'Увійдіть, щоб продовжити з того місця, де зупинилися.', registerDescription: 'Для реєстрації потрібен код запрошення від власника.', login: 'Логін', password: 'Пароль', invitationCode: 'Код запрошення', createAccount: 'Створити акаунт', wait: 'Зачекайте…', accessOnly: 'Доступ лише для працівників вашої команди.', passwordHint: 'Щонайменше 12 символів: велика й мала латинські літери, цифра та спеціальний символ.',
+    profileTitle: 'Мій профіль', profileDescription: 'Ваші контактні дані та безпека акаунта.', contactDetails: 'Контактні дані', changePassword: 'Зміна пароля', currentPassword: 'Поточний пароль', newPassword: 'Новий пароль', confirmPassword: 'Повторіть новий пароль', passwordsMismatch: 'Нові паролі не збігаються.', passwordChanged: 'Пароль змінено. Інші сеанси буде завершено під час наступного запиту.', profileUpdated: 'Профіль оновлено.',
+    phoneHint: 'Введіть номер без коду країни', statusPending: 'Нове', statusProcessing: 'У роботі', statusCompleted: 'Завершено', statusCancelled: 'Скасовано', language: 'Мова', openMenu: 'Відкрити меню', closeMenu: 'Закрити меню', close: 'Закрити'
+  },
+  en: {
+    workspace: 'Workspace', salesManagement: 'Sales management', dashboard: 'Dashboard', orders: 'Orders', customers: 'Customers', items: 'Items', profile: 'My profile',
+    signOut: 'Sign out', loading: 'Loading data…', retry: 'Retry', total: 'Total: {total} · Page {page} of {pages}', previousPage: 'Previous page', nextPage: 'Next page',
+    addCustomer: 'Add customer', editCustomer: 'Edit customer', customerDescription: 'Contacts and relationships that grow sales.', customerSearch: 'Search by name or phone', customerEmpty: 'Meet your first customer', customerEmptyText: 'Add a contact to create orders and keep history.',
+    addItem: 'Add item', editItem: 'Edit item', itemDescription: 'Current prices and stock. Ready for the next order.', itemSearch: 'Search by name or SKU', itemEmpty: 'The catalog starts with its first item', itemEmptyText: 'Enter a name, SKU, price, and available quantity.',
+    name: 'First name', surname: 'Last name', phone: 'Phone', countryCode: 'Country and code', phoneNumber: 'Number without country code', customer: 'Customer', number: 'Number', product: 'Item', sku: 'SKU', stock: 'Stock', price: 'Price, USD', quantity: 'Quantity',
+    save: 'Save', saving: 'Saving…', cancel: 'Cancel', delete: 'Delete', deleting: 'Deleting…', edit: 'Edit', actions: 'Actions', search: 'Search', records: 'records', dataSaved: 'Data saved.', recordDeleted: 'Record deleted.', deleteRecord: 'Delete record', deleteConfirm: 'Delete “{name}”? Records related to orders are protected from deletion.',
+    nothingFound: 'Nothing found', changeQuery: 'Change the query and try again.', noRecords: 'Nothing here yet',
+    newOrder: 'New order', allOrders: 'All orders', orderSearch: 'Customer name, phone, or order number', ordersCount: 'orders', ordersEmpty: 'Your orders will appear here', orderEmptyText: 'Create an order or change the search parameters.',
+    dashboardTitle: 'Good day, {name}', dashboardText: 'All key business metrics in one place.', completedSales: 'Completed sales', completedSalesNote: 'Total completed-order value', activeOrders: 'Active orders', activeOrdersNote: 'New and in progress', customersNote: 'In your customer base', itemsNote: 'Items in the catalog', recentOrders: 'Recent orders', recentOrdersNote: 'Latest events in your workspace', allOrdersLink: 'All orders', quickActions: 'Quick actions', firstOrder: 'The first order starts your history', firstOrderText: 'Add a customer and items, then create an order.',
+    addCustomerAction: 'Add customer', addCustomerText: 'Start a new relationship', addItemAction: 'Add item', addItemText: 'Add to the catalog', createOrderAction: 'Create order', createOrderText: 'Turn a request into a sale',
+    order: 'Order', status: 'Status', amount: 'Amount', openOrder: 'Open order {id}', orderDetails: 'Order № {id}', totalAmount: 'Total', new: 'New', processing: 'In progress', completed: 'Completed', cancelled: 'Cancelled', takeToWork: 'Start work', complete: 'Complete', cancelOrder: 'Cancel order', confirmCancellation: 'Cancel this order? All items will return to stock. This cannot be undone.', confirmCancel: 'Confirm cancellation', back: 'Back',
+    orderCustomer: '01 Customer', orderItems: '02 Items', findCustomer: 'Find a customer', findItem: 'Find an item', changeCustomer: 'Change customer', noStock: 'Item is out of stock.', chooseCustomerAndItems: 'Choose a customer and at least one item.', checkQuantities: 'Check the quantity of each item.', preliminaryTotal: 'Estimated total', serverChecks: 'The server checks current prices and stock when the order is created.', createOrder: 'Create order', creating: 'Creating…', itemAddedMessage: 'Order created and items deducted from stock.',
+    signIn: 'Sign in', registration: 'Register', welcomeBack: 'Welcome back', joinTeam: 'Join the team', loginDescription: 'Sign in to continue where you left off.', registerDescription: 'You need an invitation code from the owner to register.', login: 'Login', password: 'Password', invitationCode: 'Invitation code', createAccount: 'Create account', wait: 'Please wait…', accessOnly: 'Access is limited to your team members.', passwordHint: 'At least 12 characters: upper- and lower-case Latin letters, a digit, and a special character.',
+    profileTitle: 'My profile', profileDescription: 'Your contact details and account security.', contactDetails: 'Contact details', changePassword: 'Change password', currentPassword: 'Current password', newPassword: 'New password', confirmPassword: 'Confirm new password', passwordsMismatch: 'New passwords do not match.', passwordChanged: 'Password changed. Other sessions will end on their next request.', profileUpdated: 'Profile updated.',
+    phoneHint: 'Enter the number without the country code', statusPending: 'New', statusProcessing: 'In progress', statusCompleted: 'Completed', statusCancelled: 'Cancelled', language: 'Language', openMenu: 'Open menu', closeMenu: 'Close menu', close: 'Close'
+  }
+};
+
+const LocaleContext = createContext(null);
+const savedLanguage = () => localStorage.getItem('so17.language') === 'en' ? 'en' : 'uk';
+
+export function LocaleProvider({ children }) {
+  const [language, setLanguageState] = useState(savedLanguage);
+  const setLanguage = next => { localStorage.setItem('so17.language', next); setLanguageState(next); };
+  const value = useMemo(() => ({ language, setLanguage, t: (key, values = {}) => (dictionaries[language][key] || key).replace(/\{(\w+)\}/g, (_, name) => values[name] ?? '') }), [language]);
+  return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
+}
+
+export function useLocale() {
+  const value = useContext(LocaleContext);
+  if (!value) throw new Error('LocaleProvider is required.');
+  return value;
+}
