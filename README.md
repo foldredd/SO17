@@ -170,7 +170,7 @@ It performs:
 3. Frontend ESLint checks.
 4. Frontend Vitest tests.
 5. Frontend production build.
-6. Production dependency audit.
+6. Backend and frontend production dependency audits.
 
 For focused commands:
 
